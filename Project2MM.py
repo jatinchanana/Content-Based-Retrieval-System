@@ -54,8 +54,8 @@ for folder in folders:
         descriptor =  extract_features(grayimage)
         if(descriptor is not None):
             histogram= build_histogram(descriptor,kmeans)
-            preprocessed_image.append([f[23:],histogram])
-            hists.append(histogram)  
+            preprocessed_image.append([f[23:],histogram]) # Store [imagename,feature vector] for all images. 
+            hists.append(histogram) # build final feature vector to fit Nearest Neighbors algorithm 
 
 '''Using nearest neighbors to find 10 closest images to the query image'''
 from sklearn.neighbors import NearestNeighbors
@@ -64,6 +64,6 @@ data = cv2.imread(r'\path\to\the\query\image')
 data = gray(data)
 descriptor = extract_features(data)
 histogram = build_histogram(descriptor, kmeans)
-neighbor = NearestNeighbors(n_neighbors =10,metric='cosine')
+neighbor = NearestNeighbors(n_neighbors =10,metric='cosine') 
 neighbor.fit(hists)
-dist, result = neighbor.kneighbors([histogram])
+dist, result = neighbor.kneighbors([histogram])  #result returns the index of the 10 closest images returned
